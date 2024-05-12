@@ -10,10 +10,21 @@ function text_input(string $text, string $id, string $name)
     return $html;
 }
 
-function select(string $id, string $name, array $rows) {
+function select(string $label, string $name, array $cols) {
     global $conn;
 
-    $html = "<select id=\"$id\" name=\"$name\">";
+    $html = 
+        "<div class=\"input-group input-group-sm mb-3\">" . 
+        "<span class=\"input-group-text\" id=\"inputGroup-sizing-sm\">$label</span>" .
+        "<select class=\"form-select\" id=\"$name\" name=\"$name\">";
+
+    foreach ($cols as $key => $value) {
+        $html .= "<option value=\"$value\">$key</option>"; 
+    }
+
+    $html .= "</select></div>";
+
+    return $html;
 }
 
 function modal(string $title, string $content)

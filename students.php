@@ -6,11 +6,25 @@ $cols = array("Student no", "First name", "Last name", "Middle Name", "Course Id
 $modal_content = "";
 
 foreach ($cols as $col) {
-    // if ($col == "Department Id") {
-    //     $modal_content .= 
-    //     continue;  
-    // }
-    $modal_content .= text_input($col, strtolower($col) . "_input",  to_field($col));
+    switch ($col) {
+        case 'Course Id':
+            $courses = mysqli_query($conn, "SELECT * FROM tbl_courses inner join tbl_departments on tbl_courses.department_id = tbl_departments.id");
+
+            $options = array();
+            while ($row = mysqli_fetch_array($courses)) {
+                $options[$row[2]] = "$row[0]:$row[4]";
+            }
+
+            $modal_content .= select($col, to_field($col), $options);
+            break;
+
+        case 'Department Id':
+            break;
+        
+        default:
+            $modal_content .= text_input($col, strtolower($col) . "_input",  to_field($col));
+            break;
+    }
 }
 
 $tbl = $_GET['tbl'];
@@ -18,7 +32,21 @@ $tbl = $_GET['tbl'];
 modal("Add to Students", $modal_content, $tbl);
 
 if (isset($_POST['submit'])) {
-    addToTable($cols, "tbl_students");
+    $values = array();
+
+    $courseId = $_POST[to_field("Course Id")];
+    $_POST[to_field("Course Id")] = explode(":", $courseId)[0];
+    $_POST[to_field("Department Id")] = explode(":", $courseId)[1];
+
+    foreach ($cols as $key => $value) {
+        $values[$value] = $_POST[to_field($value)];
+    }
+
+    addToTable($values, "tbl_students");
+
+    // TODO add error handling
+    // clear post after adding
+    $_POST = array();
 }
 ?>
 

@@ -33,15 +33,16 @@ function to_field(string $field): string
     return str_replace(" ", "_", strtolower($field));
 }
 
-function addToTable($cols, $tbl) {
+function addToTable($cols, $tbl)
+{
     global $conn;
 
-    $fields_query = to_query($cols);
+    $fields_query = to_query(array_keys($cols));
 
     // get values
     $values = array();
-    foreach ($cols as $col) {
-        array_push($values, $_POST[to_field($col)]);
+    foreach (array_keys($cols) as $key) {
+        array_push($values, $cols[$key]);
     }
 
     $values_query = to_values($values);
