@@ -45,8 +45,6 @@ if (isset($_POST['submit'])) {
     addToTable($values, "tbl_students");
 
     // TODO add error handling
-    // clear post after adding
-    $_POST = array();
 }
 ?>
 

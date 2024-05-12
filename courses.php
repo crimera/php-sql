@@ -6,14 +6,34 @@ $cols = array("Code", "Description", "Department Id");
 $modal_content = "";
 
 foreach ($cols as $col) {
-    $modal_content .= text_input($col, strtolower($col)."_input",  to_field($col));
+    switch ($col) {
+        case 'Department Id':
+            $courses = mysqli_query($conn, "SELECT * FROM tbl_departments");
+
+            $options = array();
+            while ($row = mysqli_fetch_array($courses)) {
+                $options[$row[2]] = "$row[0]";
+            }
+
+            $modal_content .= select($col, to_field($col), $options);
+            break;
+        
+        default:
+            $modal_content .= text_input($col, strtolower($col)."_input",  to_field($col));
+            break;
+    }
 }
 
 modal("Add to Courses", $modal_content, $_GET['tbl']);
 
-
 if (isset($_POST['submit'])) {
-    addToTable($cols, "tbl_courses");
+    $values = array();
+
+    foreach ($cols as $key => $value) {
+        $values[$value] = $_POST[to_field($value)];
+    }
+
+    addToTable($values, "tbl_courses");
 }
 ?>
 
