@@ -58,3 +58,40 @@ function addToTable($cols, $tbl)
         echo "Error: " . $query . "<br>" . mysqli_error($conn);
     }
 }
+
+function deleteRow(string $table)
+{
+    global $conn;
+    if (isset($_POST['deleteModal'])) {
+
+        $row = $_POST["row"];
+
+        $smt = $conn->prepare("DELETE FROM $table WHERE id = ?");
+        $smt->bind_param("i", $row);
+        $smt->execute();
+
+        unset($_POST['deleteModal']);
+    }
+}
+
+function addActionModals(string $modal_content)
+{
+    modal("Edit", $modal_content, "editModal", "Save", "Cancel");
+
+    $deleteModalContent = <<<HTML
+        <p>Are you sure you want to delete this item?</p>
+        <input type="hidden" name="row" id="row"/>
+    HTML;
+
+    modal("Delete", $deleteModalContent, "deleteModal", "Save", "Cancel");
+}
+
+function addActionButtons(int $id)
+{
+        echo <<<HTML
+            <td>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteRow($id)">Delete</button>
+            </td>
+        HTML;
+}

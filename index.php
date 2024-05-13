@@ -44,7 +44,7 @@
         include($_GET['tbl'] . ".php");
 
         $addBtn = <<< HTML
-            <div class="addBtn border-secondary-subtle border-bottom text-center" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <div class="addBtn border-secondary-subtle border-bottom text-center" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
             <h6 class="text-black py-2 m-0">Add +</h6>
             </div>
         HTML;
@@ -53,5 +53,11 @@
     ?>
 
 </body>
+
+<script>
+    function deleteRow(id) {
+        document.getElementById("row").value = id
+    }
+</script>
 
 </html>

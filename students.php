@@ -20,7 +20,7 @@ foreach ($cols as $col) {
 
         case 'Department Id':
             break;
-        
+
         default:
             $modal_content .= text_input($col, strtolower($col) . "_input",  to_field($col));
             break;
@@ -29,9 +29,9 @@ foreach ($cols as $col) {
 
 $tbl = $_GET['tbl'];
 
-modal("Add to Students", $modal_content, $tbl);
+modal("Add to Students", $modal_content, "addModal", "Save", "Cancel");
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['addModal'])) {
     $values = array();
 
     $courseId = $_POST[to_field("Course Id")];
@@ -44,8 +44,10 @@ if (isset($_POST['submit'])) {
 
     addToTable($values, "tbl_students");
 
-    // TODO add error handling
+    unset($_POST['addModal']);
 }
+
+deleteRow("tbl_students");
 ?>
 
 <table class="table table-hover m-0 ">
@@ -54,6 +56,8 @@ if (isset($_POST['submit'])) {
         foreach ($cols as $col) {
             echo "<th>$col</th>";
         }
+        // Buttons
+        echo "<th></th>";
         ?>
     </tr>
 
@@ -65,6 +69,8 @@ if (isset($_POST['submit'])) {
 
     $result = mysqli_query($conn, "SELECT * FROM tbl_students INNER JOIN tbl_courses ON tbl_students.course_id = tbl_courses.id INNER JOIN tbl_departments ON tbl_students.department_id = tbl_departments.id");
 
+    addActionModals($modal_content);
+
     while ($row = mysqli_fetch_array($result)) {
         echo "<tr>";
         echo "<td>" . $row["student_no"] . "</td>";
@@ -73,6 +79,7 @@ if (isset($_POST['submit'])) {
         echo "<td>" . $row["middle_name"] . "</td>";
         echo "<td>" . $row[9] . "</td>";
         echo "<td>" . $row[13] . "</td>";
+        addActionButtons($row[0]);
         echo "</tr>";
     }
     ?>

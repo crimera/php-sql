@@ -10,16 +10,17 @@ function text_input(string $text, string $id, string $name)
     return $html;
 }
 
-function select(string $label, string $name, array $cols) {
+function select(string $label, string $name, array $cols)
+{
     global $conn;
 
-    $html = 
-        "<div class=\"input-group input-group-sm mb-3\">" . 
+    $html =
+        "<div class=\"input-group input-group-sm mb-3\">" .
         "<span class=\"input-group-text\" id=\"inputGroup-sizing-sm\">$label</span>" .
         "<select class=\"form-select\" id=\"$name\" name=\"$name\">";
 
     foreach ($cols as $key => $value) {
-        $html .= "<option value=\"$value\">$key</option>"; 
+        $html .= "<option value=\"$value\">$key</option>";
     }
 
     $html .= "</select></div>";
@@ -27,30 +28,29 @@ function select(string $label, string $name, array $cols) {
     return $html;
 }
 
-function modal(string $title, string $content)
+function modal(string $title, string $content, string $id, string $neutralButtonLabel, string $negativeButtonLabel)
 {
     $html = <<<HTML
-<div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="$id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form method="POST">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">$title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">$title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
                     $content
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">$negativeButtonLabel</button>
+                        <button type="submit" name="$id" class="btn btn-primary">$neutralButtonLabel</button>
+                    </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" name="submit" class="btn btn-primary">Save changes</button>
-            </div>
-            </form>
         </div>
     </div>
-</div>
-HTML;
+    HTML;
 
     echo $html;
 }
-?>

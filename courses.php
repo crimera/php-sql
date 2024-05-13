@@ -24,9 +24,9 @@ foreach ($cols as $col) {
     }
 }
 
-modal("Add to Courses", $modal_content, $_GET['tbl']);
+modal("Add to Courses", $modal_content, "addModal", "Save", "Cancel");
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['addModal'])) {
     $values = array();
 
     foreach ($cols as $key => $value) {
@@ -34,14 +34,18 @@ if (isset($_POST['submit'])) {
     }
 
     addToTable($values, "tbl_courses");
+
+    unset($_POST['addModal']);
 }
+
+deleteRow("tbl_courses")
 ?>
 
 <table class="table table-hover m-0">
     <tr>
-         <?php 
-            $headers = array("Code", "Description", "Department");
-            foreach ($headers as $col) { echo "<th>$col</th>"; } 
+        <?php 
+        foreach ($cols as $col) { echo "<th>$col</th>"; } 
+        echo "<th></th>";
         ?> 
     </tr>
 
@@ -55,11 +59,14 @@ if (isset($_POST['submit'])) {
 
     $result = mysqli_query($conn, "SELECT * FROM tbl_courses inner join tbl_departments on tbl_courses.department_id = tbl_departments.id");  
 
+    addActionModals($modal_content);
+
     while ($row = mysqli_fetch_array($result)) {
         echo "<tr>";
         echo "<td>" . $row[1] . "</td>";
         echo "<td>" . $row[2] . "</td>";
         echo "<td>" . $row[6] . "</td>";
+        addActionButtons($row[0]);
         echo "</tr>";
     }
     ?>
