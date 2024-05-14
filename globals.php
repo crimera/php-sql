@@ -49,9 +49,6 @@ function addToTable($cols, $tbl)
 
     $query = "INSERT INTO `$tbl` $fields_query VALUES $values_query";
 
-    echo $query;
-
-
     if (mysqli_query($conn, $query)) {
         echo "New record created successfully";
     } else {
@@ -74,9 +71,19 @@ function deleteRow(string $table)
     }
 }
 
+function editRow(string $id, array $values)
+{
+    // UPDATE `tbl_students` SET `last_name` = 'IDd', `middle_name` = 'br', `department_id` = '2' WHERE `tbl_students`.`id` = 27
+}
+
 function addActionModals(string $modal_content)
 {
-    modal("Edit", $modal_content, "editModal", "Save", "Cancel");
+    $editModalContent = <<< HTML
+        <input type="hidden" name="editRow" id="editRow"/>
+        $modal_content
+    HTML;
+
+    modal("Edit", $editModalContent, "editModal", "Save", "Cancel");
 
     $deleteModalContent = <<<HTML
         <p>Are you sure you want to delete this item?</p>
@@ -88,10 +95,10 @@ function addActionModals(string $modal_content)
 
 function addActionButtons(int $id)
 {
-        echo <<<HTML
-            <td>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteRow($id)">Delete</button>
-            </td>
-        HTML;
+    echo <<<HTML
+        <td>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteRow($id)">Delete</button>
+        </td>
+    HTML;
 }

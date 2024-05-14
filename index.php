@@ -58,6 +58,10 @@
     function deleteRow(id) {
         document.getElementById("row").value = id
     }
+
+    function editRow(id) {
+        document.getElementById("row").value = id
+    }
 </script>
 
 </html>

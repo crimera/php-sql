@@ -20,5 +20,6 @@
         <a class="px-3 idk <?php check("students") ?>" href="?tbl=students">Students</a>
         <a class="px-3 idk <?php check("courses") ?>" href="?tbl=courses">Courses</a>
         <a class="px-3 idk <?php check("departments") ?>" href="?tbl=departments">Departments</a>
+        <a class="px-3 idk <?php check("users") ?>" href="?tbl=users">Users</a>
     </div>
 </nav>
