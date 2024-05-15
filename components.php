@@ -1,10 +1,10 @@
 <?php
-function text_input(string $text, string $id, string $name)
+function text_input(string $text, string $id, string $name, string $value = "")
 {
     $html = <<<HTML
         <div class="input-group input-group-sm mb-3">
             <span class="input-group-text" id="inputGroup-sizing-sm">$text</span>
-            <input type="text" id="$id" name="$name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            <input type="text" id="$id" value="$value" name="$name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
         </div>
     HTML;
     return $html;

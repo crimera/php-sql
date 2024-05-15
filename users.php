@@ -2,7 +2,7 @@
 include("components.php");
 include("globals.php");
 
-$cols = array("username", "accesslevel");
+$cols = array("Username", "Accesslevel");
 $modal_content = "";
 
 $colsm = array("username", "password", "accesslevel");

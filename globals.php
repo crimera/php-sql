@@ -71,9 +71,25 @@ function deleteRow(string $table)
     }
 }
 
-function editRow(string $id, array $values)
+function editRow(string $id, array $values, $tbl)
 {
     // UPDATE `tbl_students` SET `last_name` = 'IDd', `middle_name` = 'br', `department_id` = '2' WHERE `tbl_students`.`id` = 27
+    global $conn;
+    $query = "";
+
+    foreach ($values as $key => $value) {
+        $query .= "`$key` = '$value', ";
+    }
+
+    $query = rtrim($query, ", ");
+
+    $q = "UPDATE `$tbl` SET $query WHERE `$tbl`.`id` = $id";
+    print_r($q);
+
+    $smt = $conn->prepare("UPDATE `$tbl` SET $query WHERE `$tbl`.`id` = $id");
+    mysqli_query($conn, "UPDATE `$tbl` SET $query WHERE `$tbl`.`id` = $id");
+
+    unset($_POST['editRow']);
 }
 
 function addActionModals(string $modal_content)
@@ -97,7 +113,7 @@ function addActionButtons(int $id)
 {
     echo <<<HTML
         <td>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editRow($id)">Edit</button>
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteRow($id)">Delete</button>
         </td>
     HTML;

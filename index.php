@@ -60,7 +60,7 @@
     }
 
     function editRow(id) {
-        document.getElementById("row").value = id
+        document.getElementById("editRow").value = id
     }
 </script>
 

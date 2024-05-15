@@ -48,6 +48,18 @@ if (isset($_POST['addModal'])) {
 }
 
 deleteRow("tbl_students");
+
+if (isset($_POST['editRow'])) {
+    $fields = array("Student no", "First name", "Last name", "Middle Name", "Course Id", "Department Id");
+
+    $values = array();
+    // TODO split courseid
+    foreach ($fields as $fieldName) {
+        $values[$fieldName] = $_POST[to_field($fieldName)];
+    }
+
+    editRow($_POST["editRow"], $values, "tbl_students");
+}
 ?>
 
 <table class="table table-hover m-0 ">

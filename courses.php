@@ -38,7 +38,18 @@ if (isset($_POST['addModal'])) {
     unset($_POST['addModal']);
 }
 
-deleteRow("tbl_courses")
+deleteRow("tbl_courses");
+
+if (isset($_POST['editRow'])) {
+    $fields = array("Code", "Description", "Department Id");
+
+    $values = array();
+    foreach ($fields as $fieldName) {
+        $values[to_field($fieldName)] = $_POST[to_field($fieldName)];
+    }
+
+    editRow($_POST["editRow"], $values, "tbl_courses");
+}
 ?>
 
 <table class="table table-hover m-0">

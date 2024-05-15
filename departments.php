@@ -6,7 +6,7 @@ $cols = array("Code", "Description");
 $modal_content = "";
 
 foreach ($cols as $col) {
-    $modal_content .= text_input($col, strtolower($col)."_input",  to_field($col));
+    $modal_content .= text_input($col, strtolower($col) . "_input",  to_field($col));
 }
 
 modal("Add to Departments", $modal_content, "addModal", "Save", "Cancel");
@@ -25,13 +25,27 @@ if (isset($_POST['addModal'])) {
 }
 
 deleteRow("tbl_departments");
+
+
+if (isset($_POST['editRow'])) {
+    $fields = array("code", "description");
+
+    $values = array();
+    foreach ($fields as $fieldName) {
+        $values[$fieldName] = $_POST[to_field($fieldName)];
+    }
+
+    editRow($_POST["editRow"], $values, "tbl_departments");
+}
 ?>
 
 <table class="table table-hover m-0">
-    <tr> 
-        <?php foreach ($cols as $col) { echo "<th>$col</th>"; } 
+    <tr>
+        <?php foreach ($cols as $col) {
+            echo "<th>$col</th>";
+        }
         echo "<th>Actions</th>";
-        ?> 
+        ?>
     </tr>
 
     <?php
@@ -41,9 +55,9 @@ deleteRow("tbl_departments");
         echo "Something happened";
     }
 
-    $result = mysqli_query($conn, "SELECT * FROM tbl_departments");
-
     addActionModals($modal_content);
+
+    $result = mysqli_query($conn, "SELECT * FROM tbl_departments");
 
     while ($row = mysqli_fetch_array($result)) {
         echo "<tr>";
