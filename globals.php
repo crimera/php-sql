@@ -84,7 +84,8 @@ function editRow(string $id, array $values, $tbl)
     $query = rtrim($query, ", ");
 
     $q = "UPDATE `$tbl` SET $query WHERE `$tbl`.`id` = $id";
-    print_r($q);
+    // print_r($q);
+    print("Updated row");
 
     $smt = $conn->prepare("UPDATE `$tbl` SET $query WHERE `$tbl`.`id` = $id");
     mysqli_query($conn, "UPDATE `$tbl` SET $query WHERE `$tbl`.`id` = $id");
