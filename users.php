@@ -7,7 +7,7 @@ $modal_content = "";
 
 $colsm = array("username", "password", "accesslevel");
 foreach ($colsm as $col) {
-    $modal_content .= text_input($col, strtolower($col)."_input",  to_field($col));
+    $modal_content .= text_input($col, to_field($col),  to_field($col));
 }
 
 modal("Add to Departments", $modal_content, "addModal", "Save", "Cancel");
@@ -25,6 +25,17 @@ if (isset($_POST['addModal'])) {
     addToTable($values, "tbl_users");
 
     unset($_POST['addModal']);
+}
+
+if (isset($_POST['editRow'])) {
+    $fields = array("username", "password", "accesslevel");
+
+    $values = array();
+    foreach ($fields as $fieldName) {
+        $values[$fieldName] = $_POST[to_field($fieldName)];
+    }
+
+    editRow($_POST["editRow"], $values, "tbl_users");
 }
 
 deleteRow("tbl_users");
@@ -52,7 +63,14 @@ deleteRow("tbl_users");
         echo "<tr>";
         echo "<td>" . $row["username"] . "</td>";
         echo "<td>" . $row["accesslevel"] . "</td>";
-        addActionButtons($row[0]);
+        addActionButtons(
+            $row[0],
+            array(
+                "username" => $row["username"],
+                "password" => $row["password"],
+                "accesslevel" => $row["accesslevel"],
+            )
+        );
         echo "</tr>";
     }
     ?>

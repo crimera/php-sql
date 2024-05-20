@@ -22,7 +22,7 @@ foreach ($cols as $col) {
             break;
 
         default:
-            $modal_content .= text_input($col, strtolower($col) . "_input",  to_field($col));
+            $modal_content .= text_input($col, to_field($col),  to_field($col));
             break;
     }
 }
@@ -50,12 +50,19 @@ if (isset($_POST['addModal'])) {
 deleteRow("tbl_students");
 
 if (isset($_POST['editRow'])) {
-    $fields = array("Student no", "First name", "Last name", "Middle Name", "Course Id", "Department Id");
+    $fields = array("Student no", "First name", "Last name", "Middle Name", "Course Id");
 
     $values = array();
-    // TODO split courseid
+
     foreach ($fields as $fieldName) {
-        $values[$fieldName] = $_POST[to_field($fieldName)];
+        $field = to_field($fieldName);
+        if ($field == "course_id") {
+            $course_and_dept = explode(":", $_POST["course_id"]);
+            $values["course_id"] = $course_and_dept[0];
+            $values["department_id"] = $course_and_dept[1];
+        } else {
+            $values[$field] = $_POST[$field];
+        }
     }
 
     editRow($_POST["editRow"], $values, "tbl_students");
@@ -91,7 +98,16 @@ if (isset($_POST['editRow'])) {
         echo "<td>" . $row["middle_name"] . "</td>";
         echo "<td>" . $row[9] . "</td>";
         echo "<td>" . $row[13] . "</td>";
-        addActionButtons($row[0]);
+        addActionButtons(
+            $row[0],
+            array(
+                "student_no" => $row["student_no"],
+                "first_name" => $row["first_name"],
+                "last_name" => $row["last_name"],
+                "middle_name" => $row["middle_name"],
+                "course_id" => $row["course_id"].":".$row["department_id"],
+            )
+        );
         echo "</tr>";
     }
     ?>

@@ -6,7 +6,7 @@ $cols = array("Code", "Description");
 $modal_content = "";
 
 foreach ($cols as $col) {
-    $modal_content .= text_input($col, strtolower($col) . "_input",  to_field($col));
+    $modal_content .= text_input($col, to_field($col),  to_field($col));
 }
 
 modal("Add to Departments", $modal_content, "addModal", "Save", "Cancel");
@@ -63,7 +63,13 @@ if (isset($_POST['editRow'])) {
         echo "<tr>";
         echo "<td>" . $row["code"] . "</td>";
         echo "<td>" . $row["description"] . "</td>";
-        addActionButtons($row[0]);
+        addActionButtons(
+            $row[0],
+            array(
+                "code" => $row["code"],
+                "description" => $row["description"],
+            )
+        );
         echo "</tr>";
     }
     ?>

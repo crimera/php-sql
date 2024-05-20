@@ -17,9 +17,9 @@ foreach ($cols as $col) {
 
             $modal_content .= select($col, to_field($col), $options);
             break;
-        
+
         default:
-            $modal_content .= text_input($col, strtolower($col)."_input",  to_field($col));
+            $modal_content .= text_input($col, to_field($col),  to_field($col));
             break;
     }
 }
@@ -54,10 +54,12 @@ if (isset($_POST['editRow'])) {
 
 <table class="table table-hover m-0">
     <tr>
-        <?php 
-        foreach ($cols as $col) { echo "<th>$col</th>"; } 
+        <?php
+        foreach ($cols as $col) {
+            echo "<th>$col</th>";
+        }
         echo "<th></th>";
-        ?> 
+        ?>
     </tr>
 
     <?php
@@ -68,7 +70,7 @@ if (isset($_POST['editRow'])) {
         echo "Something happened";
     }
 
-    $result = mysqli_query($conn, "SELECT * FROM tbl_courses inner join tbl_departments on tbl_courses.department_id = tbl_departments.id");  
+    $result = mysqli_query($conn, "SELECT * FROM tbl_courses inner join tbl_departments on tbl_courses.department_id = tbl_departments.id");
 
     addActionModals($modal_content);
 
@@ -77,7 +79,14 @@ if (isset($_POST['editRow'])) {
         echo "<td>" . $row[1] . "</td>";
         echo "<td>" . $row[2] . "</td>";
         echo "<td>" . $row[6] . "</td>";
-        addActionButtons($row[0]);
+        addActionButtons(
+            $row[0],
+            array(
+                "code" => $row[1],
+                "description" => $row[2],
+                "department_id" => $row["department_id"],
+            )
+        );
         echo "</tr>";
     }
     ?>

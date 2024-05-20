@@ -59,8 +59,16 @@
         document.getElementById("row").value = id
     }
 
-    function editRow(id) {
+    function editRow(id, cols) {
         document.getElementById("editRow").value = id
+
+        cols.forEach((value, key) => {
+            setInputValue(key, value)
+        })
+    }
+
+    function setInputValue(id, value) {
+        return document.querySelector("#editModal #"+id).value = value
     }
 </script>
 

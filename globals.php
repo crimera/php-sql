@@ -109,11 +109,24 @@ function addActionModals(string $modal_content)
     modal("Delete", $deleteModalContent, "deleteModal", "Save", "Cancel");
 }
 
-function addActionButtons(int $id)
+function addActionButtons(int $id, array $values)
 {
+    $map = "new Map([";
+
+    $i = 1;
+    foreach ($values as $key => $value) {
+        $map .= "['$key', '$value']";
+        if ($i<count($values)) {
+            $map .= ",";
+        }
+        $i++;
+    }
+
+    $map .= "])";
+
     echo <<<HTML
         <td>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editRow($id)">Edit</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editRow($id, $map)">Edit</button>
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteRow($id)">Delete</button>
         </td>
     HTML;
