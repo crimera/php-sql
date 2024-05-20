@@ -10,6 +10,15 @@
         td:first-child,
         th:first-child {
             padding-left: 20px;
+        } 
+
+
+        td:last-child, th:last-child {
+            text-align: center;
+        } 
+
+        table {
+            table-layout: fixed;
         }
 
         .idk:hover {

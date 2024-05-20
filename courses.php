@@ -58,7 +58,7 @@ if (isset($_POST['editRow'])) {
         foreach ($cols as $col) {
             echo "<th>$col</th>";
         }
-        echo "<th></th>";
+        echo "<th>Actions</th>";
         ?>
     </tr>
 

@@ -76,7 +76,7 @@ if (isset($_POST['editRow'])) {
             echo "<th>$col</th>";
         }
         // Buttons
-        echo "<th></th>";
+        echo "<th>Actions</th>";
         ?>
     </tr>
 
