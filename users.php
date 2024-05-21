@@ -5,10 +5,12 @@ include("globals.php");
 $cols = array("Username", "Accesslevel");
 $modal_content = "";
 
-$colsm = array("username", "password", "accesslevel");
-foreach ($colsm as $col) {
-    $modal_content .= text_input($col, to_field($col),  to_field($col));
-}
+$colsm = array("username", "password", "accesslevel", "user_image");
+
+$modal_content .= text_input("username", "username",  "username");
+$modal_content .= text_input("password", to_field("password"), to_field("password"), "", "password");
+$modal_content .= select("Access Level", "accesslevel", array("Admin" => "admin", "User" => "user"));
+$modal_content .= text_input("User Image", "user_image",  "user_image", "", "file");
 
 modal("Add to Departments", $modal_content, "addModal", "Save", "Cancel");
 
@@ -16,10 +18,17 @@ if (isset($_POST['addModal'])) {
 
     $values = array();
 
-    $colsm = array("username", "password", "accesslevel");
+    move_uploaded_file($_FILES["user_image"]['tmp_name'], "images/" . $_FILES["user_image"]['name']);
 
-    foreach ($cols as $key => $value) {
-        $values[$value] = $_POST[to_field($value)];
+    foreach ($colsm as $key => $value) {
+        switch ($value) {
+            case "user_image":
+                $values[$value] = $_FILES["user_image"]['name'];
+                break;
+            default:
+                $values[$value] = $_POST[to_field($value)];
+                break;
+        }
     }
 
     addToTable($values, "tbl_users");
@@ -42,10 +51,14 @@ deleteRow("tbl_users");
 ?>
 
 <table class="table table-hover m-0">
-    <tr> 
-        <?php foreach ($cols as $col) { echo "<th>$col</th>"; } 
+    <tr>
+        <?php 
+        echo "<th>Image</th>";
+        foreach ($cols as $col) {
+            echo "<th>$col</th>";
+        }
         echo "<th>Actions</th>";
-        ?> 
+        ?>
     </tr>
 
     <?php
@@ -61,6 +74,7 @@ deleteRow("tbl_users");
 
     while ($row = mysqli_fetch_array($result)) {
         echo "<tr>";
+        echo "<td>" . img($row["user_image"]) . "</td>";
         echo "<td>" . $row["username"] . "</td>";
         echo "<td>" . $row["accesslevel"] . "</td>";
         addActionButtons(

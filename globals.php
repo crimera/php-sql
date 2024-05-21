@@ -49,6 +49,8 @@ function addToTable($cols, $tbl)
 
     $query = "INSERT INTO `$tbl` $fields_query VALUES $values_query";
 
+    print_r($query);
+
     if (mysqli_query($conn, $query)) {
         echo "New record created successfully";
     } else {
