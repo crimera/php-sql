@@ -37,11 +37,20 @@ if (isset($_POST['addModal'])) {
 }
 
 if (isset($_POST['editRow'])) {
-    $fields = array("username", "password", "accesslevel");
+    $fields = array("username", "password", "accesslevel", "user_image");
+
+    move_uploaded_file($_FILES["user_image"]['tmp_name'], "images/" . $_FILES["user_image"]['name']);
 
     $values = array();
     foreach ($fields as $fieldName) {
-        $values[$fieldName] = $_POST[to_field($fieldName)];
+        switch ($fieldName) {
+            case "user_image":
+                $values[$fieldName] = $_FILES["user_image"]['name'];
+                break;
+            default:
+                $values[$fieldName] = $_POST[to_field($fieldName)];
+                break;
+            }
     }
 
     editRow($_POST["editRow"], $values, "tbl_users");
@@ -53,7 +62,7 @@ deleteRow("tbl_users");
 <table class="table table-hover m-0">
     <tr>
         <?php 
-        echo "<th>Image</th>";
+        echo "<th></th>";
         foreach ($cols as $col) {
             echo "<th>$col</th>";
         }

@@ -13,7 +13,7 @@ function text_input(string $text, string $id, string $name, string $value = "", 
 function img(string $file)
 {
     return <<<HTML
-        <img src="images/$file" width="50"/>
+        <img style="clip-path: circle(50% at 50% 50%); object-fit: cover; height: 64px; width: 64px;" src="images/$file" width="50"/>
     HTML;
 }
 
