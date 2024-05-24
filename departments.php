@@ -49,7 +49,7 @@ if (isset($_POST['editRow'])) {
     </tr>
 
     <?php
-    $conn = new mysqli("localhost", "root", "", "dbsis");
+    global $conn;
 
     if (!$conn) {
         echo "Something happened";

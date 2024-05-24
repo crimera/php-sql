@@ -1,6 +1,6 @@
 <?php
 global $conn;
-$conn = new mysqli("localhost", "root", "", "dbsis");
+$conn = new mysqli("localhost", "dingle", "dingle", "dbeis");
 
 function to_query(array $arr): string
 {

@@ -2,6 +2,8 @@
 include("components.php");
 include("globals.php");
 
+global $conn;
+
 $cols = array("Code", "Description", "Department Id");
 $modal_content = "";
 
@@ -63,9 +65,6 @@ if (isset($_POST['editRow'])) {
     </tr>
 
     <?php
-    // mysqli_connect(host, username, password, dbname, port, socket) 
-    $conn = mysqli_connect("localhost", "root", null, "dbsis", "3306", null);
-
     if (!$conn) {
         echo "Something happened";
     }
